@@ -1,8 +1,9 @@
 function getProblemText() {
-  const leet = document.querySelector('[data-key="description"]');
-  if (leet) return leet.innerText;
+let descriptionElement = document.querySelector('[data-track-load="description_content"]');
 
-  const cf = document.querySelector(".problem-statement");
+   if (parent) return parent.innerText;
+
+  const cf = document.querySelector(".ttypography");
   if (cf) return cf.innerText;
 
   return "Problem text not found.";
