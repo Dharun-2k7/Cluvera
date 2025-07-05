@@ -14,4 +14,4 @@ Cluvera is a Chrome extension designed to help you **approach coding problems be
 
 ## 🧱 Tech Stack
 - JavaScript (Chrome Extension API)
-- Groq API 
+- Gemini  API 
