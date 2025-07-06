@@ -69,13 +69,13 @@ function formatHint(hint) {
 async function getGeminiHint(text, opt, apiKey) {
   const promptMap = {
     hints: `You are a helpful CP mentor.\n\nRead the problem below and give only the high-level hints:\n- Key concepts involved\n- Patterns to recognize\n- Don't explain full logic\n\nProblem:\n\n${text}`,
-    code: `You are a logic-focused assistant for DSA.\n\nRead the problem and explain:\n- Approach to solve it\n- Best suited algorithm\n- Avoid giving full code\n\nProblem:\n\n${text}`,
-    explanations: `Act like a DSA tutor.\n\nBased on the problem, give a conceptual explanation of:\n- What's being asked\n- How to think through it step by step\n- Common pitfalls or edge cases\n\nProblem:\n\n${text}`
+    code: `You are a logic-focused assistant for DSA.\n\nRead the problem and explain:\n- Approach to solve it\n -explain the algorithms needed briefly\n- Best suited algorithm\n- Avoid giving full code\n\nProblem:\n\n${text}`,
+    explanations: `Act like a DSA tutor.\n\nBased on the problem, give a conceptual explanation of:\n- What's being asked\n- How to think through it step by step \n- Common pitfalls or edge cases\n\nProblem:\n\n${text}`
   };
 
   const prompt = promptMap[opt] || promptMap["hints"];
 
-  // Use the correct Gemini API endpoint
+  // Gemini API endpoint
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
     {
