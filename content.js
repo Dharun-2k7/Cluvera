@@ -116,7 +116,6 @@ function isInContest() {
       return true;
     }
   }
-  
   return false;
 }
 
