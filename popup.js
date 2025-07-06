@@ -20,15 +20,27 @@ document.getElementById("get").addEventListener("click", () => {
 
         const text = response?.text || "❌ No problem text found.";
 
+        // Check if contest mode is detected
+        if (text.includes("Contest mode detected")) {
+          resultDiv.innerHTML = `
+            <div style="text-align: center; padding: 20px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; color: #856404;">
+              <h3 style="margin: 0 0 10px 0; color: #856404;"> 🚫 Contest Mode</h3>
+              <p style="margin: 0; line-height: 1.5;">This extension is disabled during live contests to maintain fair play and integrity.</p>
+              <p style="margin: 10px 0 0 0; font-size: 0.9em; color: #6c757d;">You can use hints on practice problems after the contest ends.</p>
+            </div>
+          `;
+          return;
+        }
+
         if (text.includes("Problem text not found")) {
           resultDiv.textContent = text;
           return;
         }
 
-        // Get Gemini response
+        // Get Gemini AI Hint
         try {
           const hint = await getGeminiHint(text, opt, geminiApiKey);
-          resultDiv.innerHTML = hint;
+          resultDiv.innerHTML = formatHint(hint);
         } catch (error) {
           console.error("Gemini API Error:", error);
           resultDiv.textContent = "❌ Gemini API Error: " + error.message;
@@ -42,7 +54,18 @@ document.getElementById("clear-btn").addEventListener("click", () => {
   document.getElementById("result").textContent = "Select the options";
 });
 
-//  prompt 
+// Format the hint response for better readability
+function formatHint(hint) {
+  // Add some basic formatting to make hints more readable
+  return hint
+    .replace(/\n\n/g, '<br><br>')
+    .replace(/\n/g, '<br>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/`(.*?)`/g, '<code style="background: #f1f1f1; padding: 2px 4px; border-radius: 3px;">$1</code>');
+}
+
+// Gemini prompt generation & API call
 async function getGeminiHint(text, opt, apiKey) {
   const promptMap = {
     hints: `You are a helpful CP mentor.\n\nRead the problem below and give only the high-level hints:\n- Key concepts involved\n- Patterns to recognize\n- Don't explain full logic\n\nProblem:\n\n${text}`,
@@ -52,7 +75,7 @@ async function getGeminiHint(text, opt, apiKey) {
 
   const prompt = promptMap[opt] || promptMap["hints"];
 
-  // API endpoint
+  // Use the correct Gemini API endpoint
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
     {
@@ -78,7 +101,7 @@ async function getGeminiHint(text, opt, apiKey) {
   const data = await response.json();
   console.log("Gemini Response:", data);
 
-  // extract the response text
+  // Extract the response text
   const responseText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
   
   if (!responseText) {
