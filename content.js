@@ -23,10 +23,11 @@ function getProblemText() {
 
   return "Problem text not found. Please make sure you're on a problem page.";
 }
-chrome.runtime.onMessage.addListener((req, _,  f) => {
+
+chrome.runtime.onMessage.addListener((req, _, sendResponse) => {
   if (req.type === "GET_PROBLEM_TEXT") {
     const text = getProblemText();
     sendResponse({ text });
   }
-  return true; 
+  return true;
 });
