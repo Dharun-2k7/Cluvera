@@ -44,13 +44,14 @@ Cluvera is a Chrome extension designed to help you approach competitive programm
    Toggle the switch in the top-right corner.
 
 4. **Click "Load Unpacked"**
-   Select the folder where the extension files are located.
+   - Select the folder where the extension files are located.
+   - ⚠️ **Important:** Make sure you're selecting the folder that directly contains `manifest.json`
+     - ✅ Example: `Cluvera/`
+     - ❌ Don’t select: `Cluvera/Cluvera/`
 
 5. **Add Your Gemini API Key**
-   Open `popup.js` and replace:
-   ```js
-   const API_KEY = "your-gemini-api-key";
-   ```
+   - After loading the extension  paste your API key in the input box and click **"Save"**.
+   - 🔒 Your key is stored locally and never shared.
 
 6. **Done!**
    - Open a LeetCode or Codeforces problem
@@ -102,10 +103,10 @@ Built with 💻 and 📚 by **Dharun Kaarthick**
 - [GitHub – Dharun-2k7](https://github.com/Dharun-2k7)  
 - [LinkedIn – Dharun Kaarthick](https://linkedin.com/in/dharun-kaarthick)
 
-
 ---
 
 ## 📝 License
 
 This project is licensed under the MIT License.  
 See `LICENSE` file for details.
+
