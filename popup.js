@@ -14,11 +14,11 @@ document.getElementById("get").addEventListener("click", () => {
     chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
       chrome.tabs.sendMessage(tab.id, { type: "GET_PROBLEM_TEXT" }, async (response) => {
         if (chrome.runtime.lastError) {
-          resultDiv.textContent = "❌ Error: Could not connect to the tab.\nTry refreshing the problem page.";
+          resultDiv.textContent = " Error: Could not connect to the tab.\nTry refreshing the problem page.";
           return;
         }
 
-        const text = response?.text || "❌ No problem text found.";
+        const text = response?.text || " No problem text found.";
 
         // Check if contest mode is detected
         if (text.includes("Contest mode detected")) {
@@ -70,7 +70,7 @@ async function getGeminiHint(text, opt, apiKey) {
   const promptMap = {
     hints: `You are a helpful CP mentor.\n\nRead the problem below and give only the high-level hints:\n- Key concepts involved\n- Patterns to recognize\n- Don't explain full logic\n\nProblem:\n\n${text}`,
     code: `You are a logic-focused assistant for DSA.\n\nRead the problem and explain:\n- Approach to solve it\n -explain the algorithms needed briefly\n- Best suited algorithm\n- Avoid giving full code\n\nProblem:\n\n${text}`,
-    explanations: `Act like a DSA tutor.\n\nBased on the problem, give a conceptual explanation of:\n- What's being asked\n- How to think through it step by step \n- Common pitfalls or edge cases\n\nProblem:\n\n${text}`
+    explanations: `Act like a DSA tutor and giva a java code .\n\nBased on the problem, give a conceptual explanation of:\n- What's being asked\n- How to think through it step by step \n- Common pitfalls or edge cases\n\nProblem:\n\n${text}`
   };
 
   const prompt = promptMap[opt] || promptMap["hints"];
