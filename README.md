@@ -98,9 +98,10 @@ This ensures users develop real skills without relying on shortcuts.
 
 ## 👨‍💻 Author
 
-Built with 💻 and 📚 by **[Your Name]**  
-- GitHub: [https://github.com/Dharun-2k7](https://github.com/your-username)  
-- LinkedIn: [https://linkedin.com/in/dharun-kaarthick](https://linkedin.com/in/yourprofile)
+Built with 💻 and 📚 by **Dharun Kaarthick**  
+- [GitHub – Dharun-2k7](https://github.com/Dharun-2k7)  
+- [LinkedIn – Dharun Kaarthick](https://linkedin.com/in/dharun-kaarthick)
+
 
 ---
 
