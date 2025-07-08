@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
-    chrome.storage.sync.get(['geminiApiKey'], ({ geminiApiKey }) => {
+    chrome.storage.sync.get(['groqApiKey'], ({ groqApiKey }) => {
         if (geminiApiKey) { 
-            document.getElementById("api-key").value = geminiApiKey;
+            document.getElementById("api-key").value = groqApiKey;
         }
     });
     
@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
         
-        chrome.storage.sync.set({ geminiApiKey: apiKey }, () => {
+        chrome.storage.sync.set({ groqApiKey: apiKey }, () => {
             const successMsg = document.getElementById("success-message");
             successMsg.style.display = "block";
             setTimeout(() => window.close(), 1000);

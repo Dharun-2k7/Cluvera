@@ -7,7 +7,7 @@ Cluvera is a Chrome extension designed to help you approach competitive programm
 ## ✨ Features
 
 - Extracts problem statements from **LeetCode** and **Codeforces**
-- Uses **Gemini AI** to suggest:
+- Uses **Groq API** to suggest:
   - Key DSA concepts
   - Problem-solving strategy
   - Algorithm to apply
@@ -25,7 +25,7 @@ Cluvera is a Chrome extension designed to help you approach competitive programm
 - CSS
 - JavaScript
 - Chrome Extensions API
-- Gemini API (requires your API key)
+- Groq API (requires your API key)
 
 ---
 
