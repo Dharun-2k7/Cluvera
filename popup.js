@@ -69,23 +69,35 @@ function formatHint(hint) {
 async function getgroqHint(text, opt, apiKey) {
   const promptMap = {
     hints: `You are a helpful CP mentor.\n\nRead the problem below and give only the high-level hints:\n- Key concepts involved\n- Patterns to recognize\n- Don't explain full logic\n\nProblem:\n\n${text}`,
-    code: `You are a logic-focused assistant for DSA.\n\nRead the problem and explain:\n- Approach to solve it\n- Algorithms needed briefly\n- Best suited algorithm\n- Avoid giving full code\n\nalso give a note that you didnt give complete code to ensure the user develop his skills\n\nProblem:\n\n${text}`,
+    code: `You are a logic-focused assistant for DSA.\n\nRead the problem and explain:\n- Approach to solve it\n- Algorithms needed and explain how to use them \n- Best suited algorithm and timecomplexity space complexity difference between brute force\n- Avoid giving full code\n\nalso give a note that you didnt give complete code to ensure the user develop his skills\n\nProblem:\n\n${text}`,
     explanations: `Act like a DSA tutor and give a Java code.\n\nBased on the problem, give a conceptual explanation of:\n- What's being asked\n- How to think through it step by step\n- Common pitfalls or edge cases\\n\nProblem:\n\n${text}`
   };
 
   const prompt = promptMap[opt] || promptMap["hints"];
 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${apiKey}`
-    },
-    body: JSON.stringify({
-      model: "llama3-70b-8192",
-      messages: [{ role: "user", content: prompt }]
-    })
-  });
+const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+    "Authorization": `Bearer ${apiKey}`
+  },
+  body: JSON.stringify({
+    model: "llama3-70b-8192",
+    temperature: 0,
+    top_p: 0.8,
+    max_tokens: 2048,
+    messages: [
+      {
+        role: "system",
+        content: "You are a DSA mentor who explains problems step by step with clean logic and avoids giving full code unless explicitly asked."
+      },
+      {
+        role: "user",
+        content: prompt
+      }
+    ]
+  })
+}); 
 
   if (!response.ok) {
     const errorData = await response.json();
