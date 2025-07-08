@@ -49,7 +49,7 @@ Cluvera is a Chrome extension designed to help you approach competitive programm
      - ✅ Example: `Cluvera/`
      - ❌ Don’t select: `Cluvera/Cluvera/`
 
-5. **Add Your Gemini API Key**
+5. **Add Your Groq API Key**
    - After loading the extension  paste your API key in the input box and click **"Save"**.
    - 🔒 Your key is stored locally and never shared.
 
