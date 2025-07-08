@@ -6,7 +6,7 @@ document.getElementById("get").addEventListener("click", () => {
   // Get API key from storage
   chrome.storage.sync.get(['groqApiKey'], ({ groqApiKey }) => {
     if (!groqApiKey) {
-      resultDiv.textContent = "❌ No Groq API key set in options.";
+      resultDiv.textContent = " No Groq API key set in options.";
       return;
     }
 
@@ -24,7 +24,7 @@ document.getElementById("get").addEventListener("click", () => {
         if (text.includes("Contest mode detected")) {
           resultDiv.innerHTML = `
             <div style="text-align: center; padding: 20px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; color: #856404;">
-              <h3 style="margin: 0 0 10px 0; color: #856404;"> 🚫 Contest Mode</h3>
+              <h3 style="margin: 0 0 10px 0; color: #856404;">  Contest Mode</h3>
               <p style="margin: 0; line-height: 1.5;">This extension is disabled during live contests to maintain fair play and integrity.</p>
               <p style="margin: 10px 0 0 0; font-size: 0.9em; color: #6c757d;">You can use hints on practice problems after the contest ends.</p>
             </div>
@@ -43,7 +43,7 @@ document.getElementById("get").addEventListener("click", () => {
           resultDiv.innerHTML = formatHint(hint);
         } catch (error) {
           console.error("Geoq API Error:", error);
-          resultDiv.textContent = "❌ Groq API Error: " + error.message;
+          resultDiv.textContent = " Groq API Error: " + error.message;
         }
       });
     });
@@ -103,3 +103,10 @@ async function getgroqHint(text, opt, apiKey) {
 
   return responseText;
 }
+// navigate to linkedin and github repo
+document.getElementById("github").addEventListener("click", () => {
+  window.open('https://github.com/Dharun-2k7/Cluvera', '_blank');
+});
+document.getElementById("linkedin").addEventListener("click", () => {
+  window.open('https://www.linkedin.com/in/dharun-kaarthick/', '_blank');
+});

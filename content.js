@@ -68,53 +68,6 @@ function isInContest() {
     if (url.includes('/gym/')) {
       return true;
     }
-    
-    // Check for contest timer
-    const contestTimer = document.querySelector('.contest-state-phase, .countdown, #sidebar .contest-countdown');
-    if (contestTimer) {
-      const timerText = contestTimer.textContent.toLowerCase();
-      if (timerText.includes('running') || timerText.includes('before') || timerText.includes(':')) {
-        return true;
-      }
-    }
-    
-    // Check for contest status in page
-    const contestStatus = document.querySelector('.contest-state');
-    if (contestStatus && contestStatus.textContent.toLowerCase().includes('running')) {
-      return true;
-    }
-    
-    // Check for submission pages during contests
-    if (url.includes('/submission/') || url.includes('/submit/')) {
-      const contestLinks = document.querySelectorAll('a[href*="/contest/"]');
-      if (contestLinks.length > 0) {
-        return true;
-      }
-    }
-  }
-  
-  // AtCoder contest detection
-  if (url.includes('atcoder.jp')) {
-    if (url.includes('/contests/') && !url.includes('/tasks/')) {
-      return true;
-    }
-    
-    const contestTimer = document.querySelector('.contest-timer, .countdown');
-    if (contestTimer && contestTimer.textContent.includes(':')) {
-      return true;
-    }
-  }
-  
-  // CodeChef contest detection
-  if (url.includes('codechef.com')) {
-    if (url.includes('/contests/') || url.includes('/contest/')) {
-      return true;
-    }
-    
-    const contestTimer = document.querySelector('.contest-timer, .countdown');
-    if (contestTimer && contestTimer.textContent.includes(':')) {
-      return true;
-    }
   }
   return false;
 }
