@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     chrome.storage.sync.get(['groqApiKey'], ({ groqApiKey }) => {
-        if (geminiApiKey) { 
+        if (groqApiKey) { 
             document.getElementById("api-key").value = groqApiKey;
         }
     });
