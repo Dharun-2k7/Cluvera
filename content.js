@@ -27,6 +27,11 @@ function getProblemText() {
   }
 
   return "Problem text not found. Please make sure you're on a problem page.";
+
+    const gfg=document.querySelector(".problems_problem_content__Xm_eO");
+    if (gfg && gfg.innerText.trim()) {
+    return gfg.innerText.trim();    
+}
 }
 
 function isInContest() {

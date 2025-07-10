@@ -9,7 +9,7 @@
     },
     "content_scripts":[
         {
-            "matches": ["*://*.leetcode.com/*", "*://*.codeforces.com/*"],
+            "matches": ["*://*.leetcode.com/*", "*://*.codeforces.com/*", "*://*.geeksforgeeks.org/*"],
             "js": ["content.js"]
         }
     ],
