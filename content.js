@@ -24,19 +24,11 @@ function getProblemText() {
   if (cf && cf.innerText.trim()) {
     return cf.innerText.trim();
   }
-<<<<<<< HEAD
-=======
-
-
->>>>>>> dc8cfa9055cce7ba6bd8cdffb5c6cf93ed705b88
-    const gfg=document.querySelector(".problems_problem_content__Xm_eO");
+  const gfg=document.querySelector(".problems_problem_content__Xm_eO");
     if (gfg && gfg.innerText.trim()) {
     return gfg.innerText.trim();    
 }
-<<<<<<< HEAD
 return "Problem text not found. Please make sure you're on a problem page.";
-=======
->>>>>>> dc8cfa9055cce7ba6bd8cdffb5c6cf93ed705b88
 }
 
 function isInContest() {
