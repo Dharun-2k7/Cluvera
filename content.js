@@ -20,13 +20,15 @@ function getProblemText() {
       return element.innerText.trim();
     }
   }
-  
   const cf = document.querySelector(".ttypography");
   if (cf && cf.innerText.trim()) {
     return cf.innerText.trim();
   }
-
-  return "Problem text not found. Please make sure you're on a problem page.";
+    const gfg=document.querySelector(".problems_problem_content__Xm_eO");
+    if (gfg && gfg.innerText.trim()) {
+    return gfg.innerText.trim();    
+}
+return "Problem text not found. Please make sure you're on a problem page.";
 }
 
 function isInContest() {
