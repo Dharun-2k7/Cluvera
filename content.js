@@ -28,6 +28,10 @@ function getProblemText() {
     if (gfg && gfg.innerText.trim()) {
     return gfg.innerText.trim();    
 }
+  const hkr = document.querySelector(".challenge-body-html");
+  if (hkr && hkr.innerText.trim()) {
+    return hkr.innerText.trim();
+  } 
 return "Problem text not found. Please make sure you're on a problem page.";
 }
 

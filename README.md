@@ -54,7 +54,7 @@ Cluvera is a Chrome extension designed to help you approach competitive programm
    - 🔒 Your key is stored locally and never shared.
 
 6. **Done!**
-   - Open a LeetCode or Codeforces or GeeksforGeeks practice problem 
+   - Open a LeetCode or Codeforces 
    - Click the Cluvera icon in the toolbar
    - Get structured, ethical AI-powered hints
 
@@ -76,6 +76,9 @@ cluvera-extension/
 ```
 
 ---
+🆕**Updates Made**
+- Added functionality for GeeksforGeeks
+- Added functionality for Hackerrank
 
 ## 🔐 Ethics First
 
