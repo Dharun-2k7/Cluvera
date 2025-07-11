@@ -33,7 +33,7 @@ Cluvera now works on **both Chrome and Firefox**! The extension automatically de
 - HTML
 - CSS
 - JavaScript
-- Chrome Extensions API
+- WebExtensions API (Chrome & Firefox)
 - Groq API (requires your API key)
 
 ---
