@@ -1,24 +1,52 @@
 {
-    "manifest_version": 3,
-    "name":"Cluvera - Ethical CP Hint Assistant",
-    "version" : "1.0",
-    "permissions": ["scripting", "activeTab", "storage"],
-    "action":{
-        "default_popup":"popup.html",
+    "manifest_version": 2,
+    "name": "Cluvera - Ethical CP Hint Assistant",
+    "version": "1.0",
+    "description": "Get AI-powered hints for competitive programming problems while maintaining ethical practice",
+    
+    "permissions": [
+        "activeTab", 
+        "storage", 
+        "tabs",
+        "*://*.leetcode.com/*", 
+        "*://*.codeforces.com/*", 
+        "*://*.geeksforgeeks.org/*",
+        "*://*.hackerrank.com/*"
+    ],
+    
+    "browser_action": {
+        "default_popup": "popup.html",
         "default_icon": "icons/icon.png"
     },
-    "content_scripts":[
+    
+    "content_scripts": [
         {
-            "matches": ["*://*.leetcode.com/*", "*://*.codeforces.com/*", "*://*.geeksforgeeks.org/*","*://*.hackerrank.com/*"],
+            "matches": [
+                "*://*.leetcode.com/*", 
+                "*://*.codeforces.com/*", 
+                "*://*.geeksforgeeks.org/*",
+                "*://*.hackerrank.com/*"
+            ],
             "js": ["content.js"]
         }
     ],
 
     "background": {
-        "service_worker": "background.js"
+        "scripts": ["background.js"],
+        "persistent": false
     },
+    
     "options_page": "options.html",
-    "host_permissions": ["<all_urls>"]
-
-     
+    
+    "icons": {
+        "16": "icons/icon.png",
+        "48": "icons/icon.png",
+        "128": "icons/icon.png"
+    },
+    
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "cluvera@dharun.dev"
+        }
+    }
 }

@@ -1,3 +1,6 @@
+// Cross browser compatibility
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 function getProblemText() {
   // Check if we're in a contest first
   if (isInContest()) {
@@ -24,15 +27,15 @@ function getProblemText() {
   if (cf && cf.innerText.trim()) {
     return cf.innerText.trim();
   }
-  const gfg=document.querySelector(".problems_problem_content__Xm_eO");
-    if (gfg && gfg.innerText.trim()) {
+  const gfg = document.querySelector(".problems_problem_content__Xm_eO");
+  if (gfg && gfg.innerText.trim()) {
     return gfg.innerText.trim();    
-}
+  }
   const hkr = document.querySelector(".challenge-body-html");
   if (hkr && hkr.innerText.trim()) {
     return hkr.innerText.trim();
   } 
-return "Problem text not found. Please make sure you're on a problem page.";
+  return "Problem text not found. Please make sure you're on a problem page.";
 }
 
 function isInContest() {
@@ -78,7 +81,7 @@ function isInContest() {
   return false;
 }
 
-chrome.runtime.onMessage.addListener((req, _, sendResponse) => {
+browserAPI.runtime.onMessage.addListener((req, sender, sendResponse) => {
   if (req.type === "GET_PROBLEM_TEXT") {
     const text = getProblemText();
     sendResponse({ text });

@@ -1,54 +1,83 @@
+// Cross browser compatibility
+const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
+
 document.getElementById("get").addEventListener("click", () => {
   const resultDiv = document.getElementById("result");
   const opt = document.getElementById("select").value;
   resultDiv.innerHTML = `<div class="loader"></div>`;
 
-  // Get API key from storage
-  chrome.storage.sync.get(['groqApiKey'], ({ groqApiKey }) => {
-    if (!groqApiKey) {
-      resultDiv.textContent = " No Groq API key set in options.";
-      return;
-    }
+  if (typeof browser !== 'undefined') {
+    // Firefox 
+    browserAPI.storage.sync.get(['groqApiKey']).then(({ groqApiKey }) => {
+      handleApiKeyResult(groqApiKey, resultDiv, opt);
+    });
+  } else {
+    // Chrome 
+    browserAPI.storage.sync.get(['groqApiKey'], ({ groqApiKey }) => {
+      handleApiKeyResult(groqApiKey, resultDiv, opt);
+    });
+  }
+});
 
-    // Get problem text from content script
-    chrome.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
-      chrome.tabs.sendMessage(tab.id, { type: "GET_PROBLEM_TEXT" }, async (response) => {
-        if (chrome.runtime.lastError) {
+function handleApiKeyResult(groqApiKey, resultDiv, opt) {
+  if (!groqApiKey) {
+    resultDiv.textContent = " No Groq API key set in options.";
+    return;
+  }
+
+  // Get problem text from content script
+  if (typeof browser !== 'undefined') {
+    // Firefox - Promise-based
+    browserAPI.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
+      browserAPI.tabs.sendMessage(tab.id, { type: "GET_PROBLEM_TEXT" }).then((response) => {
+        processProblemText(response, resultDiv, opt, groqApiKey);
+      }).catch((error) => {
+        resultDiv.textContent = " Error: Could not connect to the tab.\nTry refreshing the problem page.";
+      });
+    });
+  } else {
+    // Chrome - Callback-based
+    browserAPI.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
+      browserAPI.tabs.sendMessage(tab.id, { type: "GET_PROBLEM_TEXT" }, async (response) => {
+        if (browserAPI.runtime.lastError) {
           resultDiv.textContent = " Error: Could not connect to the tab.\nTry refreshing the problem page.";
           return;
         }
-
-        const text = response?.text || " No problem text found.";
-
-        // Check if contest mode is detected
-        if (text.includes("Contest mode detected")) {
-          resultDiv.innerHTML = `
-            <div style="text-align: center; padding: 20px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; color: #856404;">
-              <h3 style="margin: 0 0 10px 0; color: #856404;">  Contest Mode</h3>
-              <p style="margin: 0; line-height: 1.5;">This extension is disabled during live contests to maintain fair play and integrity.</p>
-              <p style="margin: 10px 0 0 0; font-size: 0.9em; color: #6c757d;">You can use hints on practice problems after the contest ends.</p>
-            </div>
-          `;
-          return;
-        }
-
-        if (text.includes("Problem text not found")) {
-          resultDiv.textContent = text;
-          return;
-        }
-
-        // Get Groq AI Hint
-        try {
-          const hint = await getgroqHint(text, opt, groqApiKey);
-          resultDiv.innerHTML = formatHint(hint);
-        } catch (error) {
-          console.error("Geoq API Error:", error);
-          resultDiv.textContent = " Groq API Error: " + error.message;
-        }
+        processProblemText(response, resultDiv, opt, groqApiKey);
       });
     });
-  });
-});
+  }
+}
+
+async function processProblemText(response, resultDiv, opt, groqApiKey) {
+  const text = response?.text || " No problem text found.";
+
+  // Check if contest mode is detected
+  if (text.includes("Contest mode detected")) {
+    resultDiv.innerHTML = `
+      <div style="text-align: center; padding: 20px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; color: #856404;">
+        <h3 style="margin: 0 0 10px 0; color: #856404;">  Contest Mode</h3>
+        <p style="margin: 0; line-height: 1.5;">This extension is disabled during live contests to maintain fair play and integrity.</p>
+        <p style="margin: 10px 0 0 0; font-size: 0.9em; color: #6c757d;">You can use hints on practice problems after the contest ends.</p>
+      </div>
+    `;
+    return;
+  }
+
+  if (text.includes("Problem text not found")) {
+    resultDiv.textContent = text;
+    return;
+  }
+
+  // Get Groq AI Hint
+  try {
+    const hint = await getgroqHint(text, opt, groqApiKey);
+    resultDiv.innerHTML = formatHint(hint);
+  } catch (error) {
+    console.error("Groq API Error:", error);
+    resultDiv.textContent = " Groq API Error: " + error.message;
+  }
+}
 
 document.getElementById("clear-btn").addEventListener("click", () => {
   document.getElementById("result").textContent = "Select the options";
@@ -75,29 +104,29 @@ async function getgroqHint(text, opt, apiKey) {
 
   const prompt = promptMap[opt] || promptMap["hints"];
 
-const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-    "Authorization": `Bearer ${apiKey}`
-  },
-  body: JSON.stringify({
-    model: "llama3-70b-8192",
-    temperature: 0,
-    top_p: 0.8,
-    max_tokens: 2048,
-    messages: [
-      {
-        role: "system",
-        content: "You are a DSA mentor who explains problems step by step with clean logic and avoids giving full code unless explicitly asked."
-      },
-      {
-        role: "user",
-        content: prompt
-      }
-    ]
-  })
-}); 
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: "llama3-70b-8192",
+      temperature: 0,
+      top_p: 0.8,
+      max_tokens: 2048,
+      messages: [
+        {
+          role: "system",
+          content: "You are a DSA mentor who explains problems step by step with clean logic and avoids giving full code unless explicitly asked."
+        },
+        {
+          role: "user",
+          content: prompt
+        }
+      ]
+    })
+  }); 
 
   if (!response.ok) {
     const errorData = await response.json();
@@ -115,10 +144,12 @@ const response = await fetch("https://api.groq.com/openai/v1/chat/completions", 
 
   return responseText;
 }
-// navigate to linkedin and github repo
+
+// Navigate to linkedin and github repo
 document.getElementById("github").addEventListener("click", () => {
   window.open('https://github.com/Dharun-2k7/Cluvera', '_blank');
 });
+
 document.getElementById("linkedin").addEventListener("click", () => {
   window.open('https://www.linkedin.com/in/dharun-kaarthick/', '_blank');
 });
