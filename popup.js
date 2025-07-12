@@ -72,7 +72,7 @@ async function processProblemText(response, resultDiv, opt, groqApiKey) {
   // Get Groq AI Hint
   try {
     const hint = await getgroqHint(text, opt, groqApiKey);
-    resultDiv.innerHTML = formatHint(hint);
+    resultDiv.innerHTML = DOMPurify.sanitize(formatHint(hint));
   } catch (error) {
     console.error("Groq API Error:", error);
     resultDiv.textContent = " Groq API Error: " + error.message;
