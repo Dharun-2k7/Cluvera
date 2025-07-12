@@ -5,7 +5,7 @@ Cluvera is a Chrome extension designed to help you approach competitive programm
 ---
 ## 🔥 **NEW: Firefox Support Added!**
 
-Cluvera now works on **both Chrome and Firefox**! The extension automatically detects your browser and uses the appropriate APIs.
+Cluvera now works on **both Chrome and Firefox**! The extension automatically detects your browser and uses the appropriate APIs. 
 
 ## ✨ Features
 
@@ -92,6 +92,9 @@ cluvera-extension/
 - Added functionality for GeeksforGeeks
 - Added functionality for Hackerrank
 - Cross browser
+- Security: Added content sanitization for API output
+
+
 
 ## 🔐 Ethics First
 
