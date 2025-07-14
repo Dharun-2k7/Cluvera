@@ -99,7 +99,7 @@ async function getgroqHint(text, opt, apiKey) {
   const promptMap = {
     hints: `You are a helpful CP mentor.\n\nRead the problem below and give only the high-level hints:\n- Key concepts involved\n- Patterns to recognize\n- Don't explain full logic\n\nProblem:\n\n${text}`,
     code: `You are a logic-focused assistant for DSA.\n\nRead the problem and explain:\n- Approach to solve it\n- Algorithms needed and explain how to use them \n- Best suited algorithm and timecomplexity space complexity difference between brute force\n- Avoid giving full code\n\nalso give a note that you didnt give complete code to ensure the user develop his skills\n\nProblem:\n\n${text}`,
-    explanations: `Act like a DSA tutor and give a Java code.\n\nBased on the problem, give a conceptual explanation of:\n- What's being asked\n- How to think through it step by step\n- Common pitfalls or edge cases\\n\nProblem:\n\n${text}`
+    explanations: `Act like a DSA tutor and give a Java code.\n\nBased on the problem, give a conceptual explanation of:\n- What's being asked\n- How to think through it step by step\n- Common pitfalls or edge cases\n\ndont ask any kind of questions to the user act like a proper tutor \n\nProblem:\n\n${text}`
   };
 
   const prompt = promptMap[opt] || promptMap["hints"];
