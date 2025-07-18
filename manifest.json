@@ -25,7 +25,8 @@
                 "*://*.leetcode.com/*", 
                 "*://*.codeforces.com/*", 
                 "*://*.geeksforgeeks.org/*",
-                "*://*.hackerrank.com/*"
+                "*://*.hackerrank.com/*",
+                 "*://*.codechef.com/*"
             ],
             "js": ["content.js"]
         }
