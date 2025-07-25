@@ -27,7 +27,7 @@ function handleApiKeyResult(groqApiKey, resultDiv, opt) {
 
   // Get problem text from content script
   if (typeof browser !== 'undefined') {
-    // Firefox - Promise-based
+    // Firefox 
     browserAPI.tabs.query({ active: true, currentWindow: true }).then(([tab]) => {
       browserAPI.tabs.sendMessage(tab.id, { type: "GET_PROBLEM_TEXT" }).then((response) => {
         processProblemText(response, resultDiv, opt, groqApiKey);
@@ -36,7 +36,7 @@ function handleApiKeyResult(groqApiKey, resultDiv, opt) {
       });
     });
   } else {
-    // Chrome - Callback-based
+    // Chrome 
     browserAPI.tabs.query({ active: true, currentWindow: true }, ([tab]) => {
       browserAPI.tabs.sendMessage(tab.id, { type: "GET_PROBLEM_TEXT" }, async (response) => {
         if (browserAPI.runtime.lastError) {

@@ -3,7 +3,7 @@ const browserAPI = typeof browser !== 'undefined' ? browser : chrome;
 
 function getProblemText() {
   // Check if we're in a contest first
-  if (isInContest()) {
+  if (isInLiveContest()) {
     return "Contest mode detected. This extension is disabled during live contests to maintain fair play.";
   }
 
@@ -38,48 +38,54 @@ function getProblemText() {
   return "Problem text not found. Please make sure you're on a problem page.";
 }
 
-function isInContest() {
+function isInLiveContest() {
   const url = window.location.href.toLowerCase();
-  
-  // LeetCode contest detection URL
+
   if (url.includes('leetcode.com')) {
-    if (url.includes('/contest/') || url.includes('/contests/')) {
-      return true;
-    }
-    
-    // Check for weekly/biweekly contest patterns
-    if (url.match(/\/contest\/weekly-contest-\d+/) || 
-        url.match(/\/contest\/biweekly-contest-\d+/)) {
-      return true;
-    }
-    
-    // Check for contest timer on page
-    const contestTimer = document.querySelector('.contest-timer, .countdown-timer, [data-test="contest-timer"]');
-    if (contestTimer && contestTimer.textContent.includes(':')) {
-      return true;
-    }
-    
-    // Check for contest navigation or indicators
-    const contestIndicators = document.querySelectorAll('[href*="contest"], .contest-nav, .contest-header');
-    if (contestIndicators.length > 0) {
-      return true;
+    if (url.includes('/contest/') && url.includes('/problems/')) {
+      const statusElements = document.querySelectorAll(
+        '.contest-status, [data-test="contest-status"], .status, [class*="status"]'
+      );
+
+      for (const status of statusElements) {
+        const statusText = status.textContent.toLowerCase();
+        if (
+          (statusText.includes('running') ||
+            statusText.includes('active') ||
+            statusText.includes('live') ||
+            statusText.includes('in progress')) &&
+          !status.closest('.topic, .tag, [class*="topic"], [class*="tag"]')
+        ) {
+          console.log("LIVE CONTEST: Active status found:", statusText);
+          return true;
+        }
+      }
+
+      const contestNavigation = document.querySelector(
+        '.contest-nav, .contest-ranking, .leaderboard, [href*="ranking"]'
+      );
+
+      const timerElements = document.querySelectorAll(
+        '.timer, .countdown, [class*="timer"], [class*="countdown"]'
+      );
+
+      if (contestNavigation && contestNavigation.offsetParent !== null) {
+        const hasActiveTimer = Array.from(timerElements).some(timer =>
+          timer.textContent.match(/^\d{1,2}:\d{2}:\d{2}$/) &&
+          !timer.textContent.includes('00:00:00')
+        );
+
+        if (hasActiveTimer) {
+          console.log("LIVE CONTEST: Contest navigation with active timer found");
+          return true;
+        }
+      }
     }
   }
-  
-  // Codeforces contest detection
-  if (url.includes('codeforces.com')) {
-    // Check for contest URLs
-    if (url.includes('/contest/') || url.includes('/contests/')) {
-      return true;
-    }
-    
-    // Check for gym contests
-    if (url.includes('/gym/')) {
-      return true;
-    }
-  }
-  return false;
+
+  return false; 
 }
+
 
 browserAPI.runtime.onMessage.addListener((req, sender, sendResponse) => {
   if (req.type === "GET_PROBLEM_TEXT") {
