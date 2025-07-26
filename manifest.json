@@ -11,7 +11,8 @@
         "*://*.leetcode.com/*", 
         "*://*.codeforces.com/*", 
         "*://*.geeksforgeeks.org/*",
-        "*://*.hackerrank.com/*"
+        "*://*.hackerrank.com/*",
+        "*://*.atcoder.jp/*"
     ],
     
     "browser_action": {
@@ -26,7 +27,8 @@
                 "*://*.codeforces.com/*", 
                 "*://*.geeksforgeeks.org/*",
                 "*://*.hackerrank.com/*",
-                 "*://*.codechef.com/*"
+                "*://*.codechef.com/*",
+                "*://*.atcoder.jp/*"
             ],
             "js": ["content.js"]
         }

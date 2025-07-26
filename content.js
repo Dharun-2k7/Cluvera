@@ -23,18 +23,31 @@ function getProblemText() {
       return element.innerText.trim();
     }
   }
+  
+  // Codeforces
   const cf = document.querySelector(".ttypography");
   if (cf && cf.innerText.trim()) {
     return cf.innerText.trim();
   }
+  
+  // GeeksforGeeks
   const gfg = document.querySelector(".problems_problem_content__Xm_eO");
   if (gfg && gfg.innerText.trim()) {
     return gfg.innerText.trim();    
   }
+  
+  // HackerRank
   const hkr = document.querySelector(".challenge-body-html");
   if (hkr && hkr.innerText.trim()) {
     return hkr.innerText.trim();
   } 
+  
+  // AtCoder - FIXED: Use ID selector instead of class
+  const atc = document.querySelector("#task-statement");
+  if (atc && atc.innerText.trim()) {
+    return atc.innerText.trim();
+  }
+  
   return "Problem text not found. Please make sure you're on a problem page.";
 }
 
@@ -83,9 +96,43 @@ function isInLiveContest() {
     }
   }
 
+  // AtCoder contest detection 
+  /*
+  if (url.includes('atcoder.jp')) {
+    if (url.match(/atcoder\.jp\/contests\/[^\/]+\/tasks/)) {
+      const timerElements = document.querySelectorAll(
+        '.timer, [class*="timer"], [class*="countdown"], .remaining-time'
+      );
+      
+      for (const timer of timerElements) {
+        const timerText = timer.textContent.trim();
+        if (timerText.match(/^\d{1,2}:\d{2}:\d{2}$/) && !timerText.includes('00:00:00')) {
+          console.log("LIVE CONTEST: AtCoder active timer found:", timerText);
+          return true;
+        }
+      }
+
+      // Check for "Contest is running" type messages
+      const contestStatus = document.querySelectorAll(
+        '.contest-status, [class*="status"], .alert, [class*="alert"]'
+      );
+      
+      for (const status of contestStatus) {
+        const statusText = status.textContent.toLowerCase();
+        if (statusText.includes('running') || 
+            statusText.includes('active') || 
+            statusText.includes('live') ||
+            statusText.includes('contest') && statusText.includes('time')) {
+          console.log("LIVE CONTEST: AtCoder status indicator found:", statusText);
+          return true;
+        }
+      }
+    }
+  }
+  */
+
   return false; 
 }
-
 
 browserAPI.runtime.onMessage.addListener((req, sender, sendResponse) => {
   if (req.type === "GET_PROBLEM_TEXT") {
